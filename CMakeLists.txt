@@ -41,7 +41,7 @@ cmake_policy( SET CMP0048 NEW )
 # Setup project
 project(
   dynaplugz
-  VERSION 0.0.0.0
+    VERSION 0.0.0.0
 )
 
 set( PROJECT_SOVER_CUR "0" )
@@ -66,65 +66,95 @@ set( CXX_STANDARD_REQUIRED TRUE )
 set( CMAKE_CXX_EXTENSIONS  FALSE )
 
 # Enable CTest.
-include(CTest)
+include( CTest )
 
 # Setup install-dirs.
 if( NOT LIB_INSTALL_DIR )
-  set( LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib" )
+  set(
+    LIB_INSTALL_DIR
+      "${CMAKE_INSTALL_PREFIX}/lib"
+  )
 
   # Do we build on a 64-Bits arch?
-  get_property( LIB64 GLOBAL PROPERTY FIND_LIBRARY_USE_LIB64_PATHS )
+  get_property(
+    LIB64
+      GLOBAL PROPERTY
+        FIND_LIBRARY_USE_LIB64_PATHS
+  )
 
   if( LIB64 )
-    set( LIB_INSTALL_DIR "${LIB_INSTALL_DIR}64" )
+    set(
+      LIB_INSTALL_DIR
+        "${LIB_INSTALL_DIR}64"
+    )
   endif( LIB64 )
 endif( NOT LIB_INSTALL_DIR )
 
 if( NOT INCLUDE_INSTALL_DIR )
- set( INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/include")
+  set(
+    INCLUDE_INSTALL_DIR
+      "${CMAKE_INSTALL_PREFIX}/include"
+  )
 endif( NOT INCLUDE_INSTALL_DIR )
 
 if( NOT SHARE_INSTALL_PREFIX )
- set( SHARE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share")
+  set(
+    SHARE_INSTALL_PREFIX
+      "${CMAKE_INSTALL_PREFIX}/share"
+  )
 endif( NOT SHARE_INSTALL_PREFIX )
+
+if( NOT CMAKE_INSTALL_DIR )
+  set(
+    CMAKE_INSTALL_DIR
+      "${LIB_INSTALL_DIR}/cmake/${PROJECT_NAME}"
+)
+endif( NOT CMAKE_INSTALL_DIR )
 
 # Add git-commit to version.
 if( EXISTS ${CMAKE_SOURCE_DIR}/.git/ )
   find_package( Git )
   if( GIT_FOUND )
     execute_process(
-      COMMAND ${GIT_EXECUTABLE} log HEAD~1..HEAD --format=%h
-      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-      OUTPUT_VARIABLE PROJECT_GIT_COMMIT
+      COMMAND
+        ${GIT_EXECUTABLE} log HEAD~1..HEAD --format=%h
+      WORKING_DIRECTORY
+        "${CMAKE_SOURCE_DIR}"
+      OUTPUT_VARIABLE
+        PROJECT_GIT_COMMIT
       ERROR_QUIET
       OUTPUT_STRIP_TRAILING_WHITESPACE
     )
 
     execute_process(
-      COMMAND ${GIT_EXECUTABLE} log HEAD~1..HEAD --date=short --format=%cd
-      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-      OUTPUT_VARIABLE PROJECT_GIT_DATE
+      COMMAND
+        ${GIT_EXECUTABLE} log HEAD~1..HEAD --date=short --format=%cd
+      WORKING_DIRECTORY
+        "${CMAKE_SOURCE_DIR}"
+      OUTPUT_VARIABLE
+        PROJECT_GIT_DATE
       ERROR_QUIET
       OUTPUT_STRIP_TRAILING_WHITESPACE
     )
 
     string(
       REGEX REPLACE "-" ""
-      PROJECT_GIT_DATE ${PROJECT_GIT_DATE}
+        PROJECT_GIT_DATE ${PROJECT_GIT_DATE}
     )
 
     string(
       CONCAT PROJECT_VERSION_GIT
-      ".git" ${PROJECT_GIT_DATE}
-      "." ${PROJECT_GIT_COMMIT}
+        ".git" ${PROJECT_GIT_DATE}
+        "." ${PROJECT_GIT_COMMIT}
     )
   endif( GIT_FOUND )
 endif( EXISTS ${CMAKE_SOURCE_DIR}/.git/ )
 
 # Set common include-dirs for compiler.
-include_directories( BEFORE
-  "${CMAKE_CURRENT_SOURCE_DIR}/src"
-  "${CMAKE_CURRENT_BINARY_DIR}/src"
+include_directories(
+  BEFORE
+    "${CMAKE_CURRENT_SOURCE_DIR}/src"
+    "${CMAKE_CURRENT_BINARY_DIR}/src"
 )
 
 # Add the subdir to process.
@@ -138,7 +168,10 @@ add_subdirectory( doc )
 
 # Give some output after configuration.
 foreach( COUNT RANGE 75 )
-  set( SPACER "${SPACER}-" )
+  set(
+    SPACER
+      "${SPACER}-"
+)
 endforeach( COUNT RANGE 75 )
 
 message( STATUS "" )

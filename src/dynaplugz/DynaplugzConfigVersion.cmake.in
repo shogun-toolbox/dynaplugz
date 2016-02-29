@@ -34,54 +34,30 @@
 ## Authors: 2016, Björn Esser <me@besser82.io>
 ##
 
-find_package( Perl )
+set(
+  PACKAGE_VERSION
+    "@PROJECT_VERSION@@PROJECT_VERSION_GIT@"
+)
 
-if( PERL_FOUND )
-  find_package( Doxygen )
-
-  if( DOXYGEN_FOUND )
-
-    if( DOXYGEN_DOT_FOUND )
-      message(STATUS "Found Dot: ${DOXYGEN_DOT_EXECUTABLE}")
-    endif( DOXYGEN_DOT_FOUND )
-
+if( "${PACKAGE_VERSION}" VERSION_LESS "${PACKAGE_FIND_VERSION}" )
+  set(
+    PACKAGE_VERSION_COMPATIBLE
+      FALSE
+  )
+else( "${PACKAGE_VERSION}" VERSION_LESS "${PACKAGE_FIND_VERSION}" )
+  set(
+    PACKAGE_VERSION_COMPATIBLE
+      TRUE
+  )
+  if ( "${PACKAGE_VERSION}" VERSION_EQUAL "${PACKAGE_FIND_VERSION}" )
     set(
-      DOXYGEN_FOUND
-        "${DOXYGEN_FOUND}"
-      CACHE INTERNAL
-        "Doxygen found"
+      PACKAGE_VERSION_EXACT
+        TRUE
     )
+  if ( "${PACKAGE_VERSION}" VERSION_EQUAL "${PACKAGE_FIND_VERSION}" )
+endif( "${PACKAGE_VERSION}" VERSION_LESS "${PACKAGE_FIND_VERSION}" )
 
-    set(
-      DOXYGEN_INPUT
-        "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile"
-    )
-
-    configure_file(
-      ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
-      ${DOXYGEN_INPUT}
-        @ONLY
-    )
-
-    add_custom_command(
-      OUTPUT
-        ${PROJECT_NAME}.tag
-      COMMAND
-        ${DOXYGEN_EXECUTABLE} "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile"
-      WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-    )
-
-    add_custom_target(
-      doc ALL
-        DEPENDS
-          "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.tag"
-    )
-
-    install(
-      FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.tag"
-      DESTINATION
-        "${SHARE_INSTALL_PREFIX}/${PROJECT_NAME}"
-    )
-  endif( DOXYGEN_FOUND )
-endif( PERL_FOUND )
+set( DYNAPLUGZ_SOVER     "@PROJECT_SOVER@" )
+set( DYNAPLUGZ_SOVER_CUR "@PROJECT_SOVER_CUR@" )
+set( DYNAPLUGZ_SOVER_REV "@PROJECT_SOVER_REV@" )
+set( DYNAPLUGZ_SOVER_AGE "@PROJECT_SOVER_AGE@" )

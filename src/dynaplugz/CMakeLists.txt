@@ -37,29 +37,29 @@
 configure_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/config.hpp.in"
   "${CMAKE_CURRENT_BINARY_DIR}/config.hpp"
-  @ONLY
+    @ONLY
 )
 
 configure_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/dynaplugz.pc.in"
   "${CMAKE_CURRENT_BINARY_DIR}/dynaplugz.pc"
-  @ONLY
+    @ONLY
 )
 
 set(
   DYNAPLUGZ_SOURCES
-  dynaplugz.cpp
+    dynaplugz.cpp
 )
 
 set(
   DYNAPLUGZ_HEADERS
-  "${CMAKE_CURRENT_BINARY_DIR}/config.hpp"
-  dynaplugz.hpp
+    "${CMAKE_CURRENT_BINARY_DIR}/config.hpp"
+    dynaplugz.hpp
 )
 
 add_library(
   ${PROJECT_NAME}
-  ${DYNAPLUGZ_SOURCES}
+    ${DYNAPLUGZ_SOURCES}
 )
 
 set_target_properties(
@@ -72,6 +72,8 @@ set_target_properties(
 install(
   TARGETS
     ${PROJECT_NAME}
+  EXPORT
+    DynaplugzTargets
   LIBRARY DESTINATION
     "${LIB_INSTALL_DIR}"
   PUBLIC_HEADER DESTINATION
@@ -83,4 +85,62 @@ install(
     "${CMAKE_CURRENT_BINARY_DIR}/dynaplugz.pc"
   DESTINATION
     "${LIB_INSTALL_DIR}/pkgconfig"
+)
+
+export(
+  TARGETS
+    ${PROJECT_NAME}
+  FILE
+    "${CMAKE_CURRENT_BINARY_DIR}/DynaplugzTargets.cmake"
+)
+
+install(
+  EXPORT
+    DynaplugzTargets
+  DESTINATION
+    "${CMAKE_INSTALL_DIR}"
+)
+
+file(
+  RELATIVE_PATH
+    REL_INCLUDE_DIR
+      "${CMAKE_INSTALL_DIR}"
+      "${INCLUDE_INSTALL_DIR}"
+)
+
+set(
+  CONF_INCLUDE_DIRS
+    "${PROJECT_SOURCE_DIR}"
+    "${PROJECT_BINARY_DIR}"
+)
+
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/DynaplugzConfig.cmake.in"
+  "${PROJECT_BINARY_DIR}/DynaplugzConfig.cmake"
+  @ONLY
+)
+
+set(
+  CONF_INCLUDE_DIRS
+    "\${DYNAPLUGZ_CMAKE_DIR}/${REL_INCLUDE_DIR}"
+)
+
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/DynaplugzConfig.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/DynaplugzConfig.cmake"
+    @ONLY
+)
+
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/DynaplugzConfigVersion.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/DynaplugzConfigVersion.cmake"
+    @ONLY
+)
+
+install(
+  FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/DynaplugzConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/DynaplugzConfigVersion.cmake"
+  DESTINATION
+    "${CMAKE_INSTALL_DIR}"
 )
