@@ -34,54 +34,14 @@
 ## Authors: 2016, Björn Esser <me@besser82.io>
 ##
 
-configure_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/config.hpp.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/config.hpp"
-  @ONLY
-)
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=@LIB_INSTALL_DIR@
+includedir=@INCLUDE_INSTALL_DIR@
 
-configure_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/dynaplugz.pc.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/dynaplugz.pc"
-  @ONLY
-)
-
-set(
-  DYNAPLUGZ_SOURCES
-  dynaplugz.cpp
-)
-
-set(
-  DYNAPLUGZ_HEADERS
-  "${CMAKE_CURRENT_BINARY_DIR}/config.hpp"
-  dynaplugz.hpp
-)
-
-add_library(
-  ${PROJECT_NAME}
-  ${DYNAPLUGZ_SOURCES}
-)
-
-set_target_properties(
-  ${PROJECT_NAME}
-  PROPERTIES
-    CXX_EXTENSIONS OFF
-    PUBLIC_HEADER  "${DYNAPLUGZ_HEADERS}"
-    SOVERSION      "${PROJECT_SOVER}"
-)
-
-install(
-  TARGETS
-    ${PROJECT_NAME}
-  LIBRARY DESTINATION
-    "${LIB_INSTALL_DIR}"
-  PUBLIC_HEADER DESTINATION
-    "${INCLUDE_INSTALL_DIR}/${PROJECT_NAME}-${PROJECT_VERSION}${PROJECT_VERSION_GIT}/${PROJECT_NAME}"
-)
-
-install(
-  FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/dynaplugz.pc"
-  DESTINATION
-    "${LIB_INSTALL_DIR}/pkgconfig"
-)
+Name: @PROJECT_NAME@
+Description: Dynamic plugin-loading like a boss
+Version: @PROJECT_VERSION@
+URL: https://github.com/shogun-toolbox/@PROJECT_NAME@
+Libs: -L${libdir} -l@PROJECT_NAME@
+Cflags: -I${includedir}/@PROJECT_NAME@-@PROJECT_VERSION@@PROJECT_VERSION_GIT@
