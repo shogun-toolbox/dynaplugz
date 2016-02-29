@@ -114,6 +114,7 @@ endif( EXISTS ${CMAKE_SOURCE_DIR}/.git/ )
 
 # Add the subdir to process.
 add_subdirectory( src )
+add_subdirectory( doc )
 
 # Give some output after configuration.
 foreach( COUNT RANGE 75 )
