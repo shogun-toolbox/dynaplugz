@@ -14,24 +14,27 @@ addons:
       - doxygen
       - graphviz
 
-matrix:
-  fast_finish: true
-  include:
-  - compiler: gcc
-    os: linux
-  - compiler: clang
-    os: linux
-  - compiler: clang
-    os: osx
+fast_finish: true
+
+sudo: false
+
+os:
+  - linux
+  - osx
+
+compiler:
+  - gcc
+  - clang
 
 before_script:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update                              ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew outdated cmake || brew upgrade cmake; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install doxygen graphviz perl       ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]                  ; then brew update                              ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]                  ; then brew outdated cmake || brew upgrade cmake; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]                  ; then brew install doxygen graphviz perl       ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" && "$CC" == "gcc" ]]; then export CXX="g++-4.8"; export CC="gcc-4.8"; fi
   - mkdir -p build/test_install
   - pushd build
   - cmake ${CMAKE_OPTIONS} ..
-  - if [[ -s doc/Doxyfile ]]           ; then doxygen -u doc/Doxyfile                  ; fi
+  - if [[ -s doc/Doxyfile ]]                             ; then doxygen -u doc/Doxyfile                  ; fi
 
 script:
   - make
