@@ -36,11 +36,26 @@
 
 #ifndef   DYNAPLUGZ_DYNAPLUGZ_HPP
 
+#include <memory>
 #include <dynaplugz/config.hpp>
 
 namespace Dynaplugz
 {
+  class CDynaplugzData;
 
+  class CDynaplugz
+  {
+    public:
+      static CDynaplugz& instance();
+
+    private:
+      std::unique_ptr<CDynaplugzData> data;
+
+      CDynaplugz();
+      CDynaplugz( const CDynaplugz& )                    = delete;
+     ~CDynaplugz()                                       = default;
+      const CDynaplugz& operator = ( const CDynaplugz& ) = delete;
+  };
 }
 #define   DYNAPLUGZ_DYNAPLUGZ_HPP
 #endif /* DYNAPLUGZ_DYNAPLUGZ_HPP */
