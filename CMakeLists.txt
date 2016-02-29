@@ -85,8 +85,7 @@ if( EXISTS ${CMAKE_SOURCE_DIR}/.git/ )
     )
 
     string(
-      CONCAT PROJECT_VERSION
-      ${PROJECT_VERSION}
+      CONCAT PROJECT_VERSION_GIT
       ".git" ${PROJECT_GIT_DATE}
       "." ${PROJECT_GIT_COMMIT}
     )
