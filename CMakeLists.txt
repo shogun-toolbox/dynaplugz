@@ -52,7 +52,8 @@ set( PROJECT_SOVER
 set( PROJECT_NAME_CAP  "Dynaplugz" )
 
 # Configurable options.
-option( BUILD_SHARED_LIBS      "Build a shared library" ON )
+option( BUILD_SHARED_LIBS "Build a shared library"     ON )
+option( BUILD_TESTING     "Enable and build testsuite" ON )
 
 # Strip trailing whitespace from env's compiler-flags.
 string( STRIP "${CMAKE_C_FLAGS}"          CMAKE_C_FLAGS )
@@ -63,6 +64,9 @@ string( STRIP "${CMAKE_EXE_LINKER_FLAGS}" CMAKE_EXE_LINKER_FLAGS )
 set( CMAKE_CXX_STANDARD    11 )
 set( CXX_STANDARD_REQUIRED TRUE )
 set( CMAKE_CXX_EXTENSIONS  FALSE )
+
+# Enable CTest.
+include(CTest)
 
 # Setup install-dirs.
 if( NOT LIB_INSTALL_DIR )
@@ -125,6 +129,11 @@ include_directories( BEFORE
 
 # Add the subdir to process.
 add_subdirectory( src )
+
+if( BUILD_TESTING )
+  add_subdirectory( tests )
+endif( BUILD_TESTING )
+
 add_subdirectory( doc )
 
 # Give some output after configuration.
