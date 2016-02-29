@@ -34,6 +34,12 @@
 ## Authors: 2016, Björn Esser <me@besser82.io>
 ##
 
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/config.hpp.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/config.hpp"
+  @ONLY
+)
+
 set(
   DYNAPLUGZ_SOURCES
   dynaplugz.cpp
@@ -41,6 +47,7 @@ set(
 
 set(
   DYNAPLUGZ_HEADERS
+  "${CMAKE_CURRENT_BINARY_DIR}/config.hpp"
   dynaplugz.hpp
 )
 
