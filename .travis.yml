@@ -1,0 +1,36 @@
+language: cpp
+
+branches:
+  except:
+    - master
+
+addons:
+  apt:
+    sources:
+      - george-edison55-precise-backports
+    packages:
+      - cmake
+      - cmake-data
+      - doxygen
+      - graphviz
+
+matrix:
+  fast_finish: true
+  include:
+  - compiler: gcc
+    os: linux
+  - compiler: clang
+    os: linux
+  - compiler: clang
+    os: osx
+
+before_script:
+  - mkdir -p build/test_install
+  - pushd build
+  - cmake ${CMAKE_OPTIONS} ..
+
+script:
+  - make
+#  - make doc
+#  - make install DESTDIR="$(pwd)/test_install"
+  - ctest --output-on-failure
