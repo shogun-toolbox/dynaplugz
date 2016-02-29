@@ -65,7 +65,6 @@ add_library(
 set_target_properties(
   ${PROJECT_NAME}
   PROPERTIES
-    CXX_EXTENSIONS OFF
     PUBLIC_HEADER  "${DYNAPLUGZ_HEADERS}"
     SOVERSION      "${PROJECT_SOVER}"
 )
