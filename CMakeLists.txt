@@ -75,6 +75,10 @@ if( NOT INCLUDE_INSTALL_DIR )
  set( INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/include")
 endif( NOT INCLUDE_INSTALL_DIR )
 
+if( NOT SHARE_INSTALL_PREFIX )
+ set( SHARE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share")
+endif( NOT SHARE_INSTALL_PREFIX )
+
 # Add git-commit to version.
 if( EXISTS ${CMAKE_SOURCE_DIR}/.git/ )
   find_package( Git )

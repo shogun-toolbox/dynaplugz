@@ -36,8 +36,11 @@
 
 prefix=@CMAKE_INSTALL_PREFIX@
 exec_prefix=${prefix}
-libdir=@LIB_INSTALL_DIR@
+
+datarootdir=@SHARE_INSTALL_PREFIX@
+datadir=${datarootdir}/@PROJECT_NAME@
 includedir=@INCLUDE_INSTALL_DIR@
+libdir=@LIB_INSTALL_DIR@
 
 Name: @PROJECT_NAME@
 Description: Dynamic plugin-loading like a boss
