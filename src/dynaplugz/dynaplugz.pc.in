@@ -41,6 +41,7 @@ datarootdir=@SHARE_INSTALL_PREFIX@
 datadir=${datarootdir}/@PROJECT_NAME@
 includedir=@INCLUDE_INSTALL_DIR@
 libdir=@LIB_INSTALL_DIR@
+plugindir=${libdir}/@PROJECT_NAME@
 
 Name: @PROJECT_NAME@
 Description: Dynamic plugin-loading like a boss
