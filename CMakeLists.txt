@@ -59,6 +59,22 @@ string( STRIP "${CMAKE_C_FLAGS}"          CMAKE_C_FLAGS )
 string( STRIP "${CMAKE_CXX_FLAGS}"        CMAKE_CXX_FLAGS )
 string( STRIP "${CMAKE_EXE_LINKER_FLAGS}" CMAKE_EXE_LINKER_FLAGS )
 
+# Setup install-dirs.
+if( NOT LIB_INSTALL_DIR )
+  set( LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib" )
+
+  # Do we build on a 64-Bits arch?
+  get_property( LIB64 GLOBAL PROPERTY FIND_LIBRARY_USE_LIB64_PATHS )
+
+  if( LIB64 )
+    set( LIB_INSTALL_DIR "${LIB_INSTALL_DIR}64" )
+  endif( LIB64 )
+endif( NOT LIB_INSTALL_DIR )
+
+if( NOT INCLUDE_INSTALL_DIR )
+ set( INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/include")
+endif( NOT INCLUDE_INSTALL_DIR )
+
 # Add git-commit to version.
 if( EXISTS ${CMAKE_SOURCE_DIR}/.git/ )
   find_package( Git )
