@@ -117,6 +117,12 @@ if( EXISTS ${CMAKE_SOURCE_DIR}/.git/ )
   endif( GIT_FOUND )
 endif( EXISTS ${CMAKE_SOURCE_DIR}/.git/ )
 
+# Set common include-dirs for compiler.
+include_directories( BEFORE
+  "${CMAKE_CURRENT_SOURCE_DIR}/src"
+  "${CMAKE_CURRENT_BINARY_DIR}/src"
+)
+
 # Add the subdir to process.
 add_subdirectory( src )
 add_subdirectory( doc )

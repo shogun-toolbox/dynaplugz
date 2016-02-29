@@ -34,11 +34,5 @@
 ## Authors: 2016, Björn Esser <me@besser82.io>
 ##
 
-# Set common include-dirs for compiler.
-include_directories( BEFORE
-  "${CMAKE_CURRENT_SOURCE_DIR}"
-  "${CMAKE_CURRENT_BINARY_DIR}"
-)
-
 # Add subdirs for process.
 add_subdirectory( dynaplugz )
