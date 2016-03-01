@@ -50,7 +50,7 @@ add_dependencies(
 )
 
 add_custom_target(
-  check
+  test_binaries
     DEPENDS
       get_instance
 )
@@ -60,4 +60,12 @@ add_test(
     "get_and_compare_CDynaplugz_instances"
   COMMAND
     "get_instance"
+)
+
+add_custom_target(
+  check
+    COMMAND
+      ${CMAKE_CTEST_COMMAND} -V
+    WORKING_DIRECTORY
+      ${CMAKE_CURRENT_BINARY_DIR}
 )

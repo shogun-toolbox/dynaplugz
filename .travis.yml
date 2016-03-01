@@ -44,4 +44,4 @@ before_script:
 script:
   - make
   - make install DESTDIR="$(pwd)/test_install"
-  - ctest --verbose
+  - make check
