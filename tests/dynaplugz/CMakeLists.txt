@@ -69,3 +69,11 @@ add_custom_target(
     WORKING_DIRECTORY
       ${CMAKE_CURRENT_BINARY_DIR}
 )
+
+add_custom_target(
+  memcheck
+    COMMAND
+      ${CMAKE_CTEST_COMMAND} -V -DExperimentalMemCheck
+    WORKING_DIRECTORY
+      ${CMAKE_CURRENT_BINARY_DIR}
+)

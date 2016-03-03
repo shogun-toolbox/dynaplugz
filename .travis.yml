@@ -51,4 +51,4 @@ before_script:
 script:
   - make
   - make install DESTDIR="$(pwd)/test_install"
-  - ctest -V -DExperimentalMemCheck
+  - make memcheck
