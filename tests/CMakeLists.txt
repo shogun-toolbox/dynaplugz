@@ -36,3 +36,11 @@
 
 # Add subdirs for process.
 add_subdirectory( dynaplugz )
+
+# Build documentation after all binaries.
+if( TARGET doc )
+  add_dependencies(
+    doc
+      test_binaries
+  )
+endif( TARGET doc )
