@@ -59,6 +59,11 @@ configure_file(
     @ONLY
 )
 
+file(
+  MAKE_DIRECTORY
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}"
+)
+
 set(
   DYNAPLUGZ_SOURCES
     dynaplugz.cpp
@@ -98,6 +103,13 @@ install(
     "${CMAKE_CURRENT_BINARY_DIR}/dynaplugz.pc"
   DESTINATION
     "${LIB_INSTALL_DIR}/pkgconfig"
+)
+
+install(
+  DIRECTORY
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}"
+  DESTINATION
+    "${LIB_INSTALL_DIR}"
 )
 
 export(
