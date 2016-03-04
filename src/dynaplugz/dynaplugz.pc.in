@@ -48,4 +48,4 @@ Description: Dynamic plugin-loading like a boss
 Version: @PROJECT_VERSION@
 URL: https://github.com/shogun-toolbox/@PROJECT_NAME@
 Libs: -L${libdir} -l@PROJECT_NAME@
-Cflags: -I${includedir}/@PROJECT_NAME@-@PROJECT_VERSION@@PROJECT_VERSION_GIT@
+Cflags: @USED_CXX11_FLAG@-I${includedir}/@PROJECT_NAME@-@PROJECT_VERSION@@PROJECT_VERSION_GIT@

@@ -40,6 +40,19 @@ configure_file(
     @ONLY
 )
 
+# Check which C++11-flag is needed.
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++11" HAVE_CXX11_FLAG)
+
+if( HAVE_CXX11_FLAG )
+  set( USED_CXX11_FLAG "-std=c++11 " )
+else( HAVE_CXX11_FLAG )
+  CHECK_CXX_COMPILER_FLAG("-std=c++0x" HAVE_CXX0X_FLAG)
+  if( HAVE_CXX0X_FLAG )
+    set( USED_CXX11_FLAG "-std=c++0x " )
+  endif( HAVE_CXX0X_FLAG )
+endif( HAVE_CXX11_FLAG )
+
 configure_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/dynaplugz.pc.in"
   "${CMAKE_CURRENT_BINARY_DIR}/dynaplugz.pc"
