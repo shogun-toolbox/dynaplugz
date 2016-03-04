@@ -40,9 +40,32 @@ if( PERL_FOUND )
   find_package( Doxygen )
 
   if( DOXYGEN_FOUND )
-
     if( DOXYGEN_DOT_FOUND )
-      message(STATUS "Found Dot: ${DOXYGEN_DOT_EXECUTABLE}")
+      execute_process(
+        COMMAND
+          "${DOXYGEN_DOT_EXECUTABLE}" -V
+        WORKING_DIRECTORY
+          "${CMAKE_CURRENT_BINARY_DIR}"
+        ERROR_VARIABLE
+          DOXYGEN_DOT_VERSION
+        OUTPUT_QUIET
+        ERROR_STRIP_TRAILING_WHITESPACE
+      )
+
+      string(
+        REGEX REPLACE ".*[Vv]ersion[ \t]\+" ""
+          DOXYGEN_DOT_VERSION "${DOXYGEN_DOT_VERSION}"
+      )
+
+      string(
+        REGEX REPLACE "[ \t]\+.*$" ""
+          DOXYGEN_DOT_VERSION "${DOXYGEN_DOT_VERSION}"
+      )
+
+      message(
+        STATUS
+          "Found Dot: ${DOXYGEN_DOT_EXECUTABLE} (found version \"${DOXYGEN_DOT_VERSION}\")"
+      )
     endif( DOXYGEN_DOT_FOUND )
 
     set(
@@ -67,7 +90,8 @@ if( PERL_FOUND )
         ${PROJECT_NAME}.tag
       COMMAND
         ${DOXYGEN_EXECUTABLE} "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile"
-      WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+      WORKING_DIRECTORY
+        "${CMAKE_CURRENT_BINARY_DIR}"
     )
 
     add_custom_target(
