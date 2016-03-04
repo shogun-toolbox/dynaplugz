@@ -139,13 +139,15 @@ if( EXISTS ${CMAKE_SOURCE_DIR}/.git/ )
 
     string(
       REGEX REPLACE "-" ""
-        PROJECT_GIT_DATE ${PROJECT_GIT_DATE}
+        PROJECT_GIT_DATE
+          "${PROJECT_GIT_DATE}"
     )
 
     string(
-      CONCAT PROJECT_VERSION_GIT
-        ".git" ${PROJECT_GIT_DATE}
-        "." ${PROJECT_GIT_COMMIT}
+      CONCAT
+        PROJECT_VERSION_GIT
+          ".git" ${PROJECT_GIT_DATE}
+          "." ${PROJECT_GIT_COMMIT}
     )
   endif( GIT_FOUND )
 endif( EXISTS ${CMAKE_SOURCE_DIR}/.git/ )
@@ -177,6 +179,9 @@ message( STATUS "" )
 message( STATUS "${SPACER}" )
 message( STATUS "" )
 message( STATUS "${PROJECT_NAME_CAP} config-summary:" )
+message( STATUS "" )
+message( STATUS "Version: ${PROJECT_VERSION}${PROJECT_VERSION_GIT}" )
+message( STATUS "API:     ${PROJECT_SOVER}" )
 message( STATUS "" )
 message( STATUS "CFLAGS:   ${CMAKE_C_FLAGS}" )
 message( STATUS "CXXFLAGS: ${CMAKE_CXX_FLAGS}" )
