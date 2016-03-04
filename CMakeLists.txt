@@ -44,6 +44,8 @@ project(
     VERSION 0.0.0.0
 )
 
+set( VERSION_RELEASED 0 )
+
 set( PROJECT_SOVER_CUR "0" )
 set( PROJECT_SOVER_REV "0" )
 set( PROJECT_SOVER_AGE "0" )
@@ -111,8 +113,58 @@ if( NOT CMAKE_INSTALL_DIR )
 )
 endif( NOT CMAKE_INSTALL_DIR )
 
+# Setup CMake-buildtype.
+string(
+  TOUPPER
+    "${CMAKE_BUILD_TYPE}"
+  CMAKE_BUILD_TYPE
+)
+
+if( NOT CMAKE_BUILD_TYPE )
+  if( VERSION_RELEASED )
+    set( CMAKE_BUILD_TYPE "RELEASE" )
+  else( VERSION_RELEASED )
+    set( CMAKE_BUILD_TYPE "DEBUG" )
+  endif( VERSION_RELEASED )
+endif( NOT CMAKE_BUILD_TYPE )
+
+if( NOT CMAKE_CXX_FLAGS_RELEASE )
+set( CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG" )
+endif( NOT CMAKE_CXX_FLAGS_RELEASE )
+
+foreach( COMPILER_TYPE C CXX )
+  if( "${CMAKE_${COMPILER_TYPE}_COMPILER_ID}" STREQUAL "GNU" )
+    set(
+      CMAKE_${COMPILER_TYPE}_FLAGS_DEBUG
+        "-Wall -Wextra -pedantic"
+    )
+    set(
+      CMAKE_${COMPILER_TYPE}_FLAGS
+        "${CMAKE_${COMPILER_TYPE}_FLAGS} -fmessage-length=0"
+    )
+  endif( "${CMAKE_${COMPILER_TYPE}_COMPILER_ID}" STREQUAL "GNU" )
+
+  if( "${CMAKE_${COMPILER_TYPE}_COMPILER_ID}" STREQUAL "Clang" )
+    set(
+      CMAKE_${COMPILER_TYPE}_FLAGS_DEBUG
+        "-Wall -Weverything -pedantic"
+    )
+    set(
+      CMAKE_${COMPILER_TYPE}_FLAGS
+        "${CMAKE_${COMPILER_TYPE}_FLAGS} -fmessage-length=0"
+    )
+  endif( "${CMAKE_${COMPILER_TYPE}_COMPILER_ID}" STREQUAL "Clang" )
+
+  if( "${CMAKE_${COMPILER_TYPE}_COMPILER_ID}" STREQUAL "MSVC" )
+    set(
+      CMAKE_${COMPILER_TYPE}_FLAGS_DEBUG
+        "/Wall /Yd"
+    )
+  endif( "${CMAKE_${COMPILER_TYPE}_COMPILER_ID}" STREQUAL "MSVC" )
+endforeach( COMPILER_TYPE C CXX )
+
 # Add git-commit to version.
-if( EXISTS ${CMAKE_SOURCE_DIR}/.git/ )
+if( EXISTS ${CMAKE_SOURCE_DIR}/.git/ AND ( NOT VERSION_RELEASED ) )
   find_package( Git )
   if( GIT_FOUND )
     execute_process(
@@ -150,7 +202,7 @@ if( EXISTS ${CMAKE_SOURCE_DIR}/.git/ )
           "." ${PROJECT_GIT_COMMIT}
     )
   endif( GIT_FOUND )
-endif( EXISTS ${CMAKE_SOURCE_DIR}/.git/ )
+endif( EXISTS ${CMAKE_SOURCE_DIR}/.git/ AND ( NOT VERSION_RELEASED ) )
 
 # Set common include-dirs for compiler.
 include_directories(
@@ -183,8 +235,10 @@ message( STATUS "" )
 message( STATUS "Version: ${PROJECT_VERSION}${PROJECT_VERSION_GIT}" )
 message( STATUS "API:     ${PROJECT_SOVER}" )
 message( STATUS "" )
-message( STATUS "CFLAGS:   ${CMAKE_C_FLAGS}" )
-message( STATUS "CXXFLAGS: ${CMAKE_CXX_FLAGS}" )
+message( STATUS "Buildtype: ${CMAKE_BUILD_TYPE}" )
+message( STATUS "" )
+message( STATUS "CFLAGS:   ${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_${CMAKE_BUILD_TYPE}}" )
+message( STATUS "CXXFLAGS: ${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE}}" )
 message( STATUS "LDFLAGS:  ${CMAKE_EXE_LINKER_FLAGS}" )
 message( STATUS "" )
 message( STATUS "default Plugin-Path:   ${LIB_INSTALL_DIR}/${PROJECT_NAME}" )
