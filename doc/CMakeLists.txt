@@ -48,8 +48,7 @@ if( PERL_FOUND )
     set(
       DOXYGEN_FOUND
         "${DOXYGEN_FOUND}"
-      CACHE INTERNAL
-        "Doxygen found"
+      PARENT_SCOPE
     )
 
     set(

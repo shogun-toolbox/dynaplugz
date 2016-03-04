@@ -158,13 +158,12 @@ include_directories(
 )
 
 # Add the subdir to process.
+add_subdirectory( doc )
 add_subdirectory( src )
 
 if( BUILD_TESTING )
   add_subdirectory( tests )
 endif( BUILD_TESTING )
-
-add_subdirectory( doc )
 
 # Give some output after configuration.
 foreach( COUNT RANGE 75 )
