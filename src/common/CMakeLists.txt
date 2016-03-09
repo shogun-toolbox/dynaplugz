@@ -34,6 +34,62 @@
 ## Authors: 2016, Björn Esser <me@besser82.io>
 ##
 
+find_program( RPM_EXECUTABLE rpm )
+
+if( RPM_EXECUTABLE )
+  execute_process(
+    COMMAND
+      "${RPM_EXECUTABLE}" --version
+    WORKING_DIRECTORY
+      "${CMAKE_CURRENT_BINARY_DIR}"
+    OUTPUT_VARIABLE
+      RPM_VERSION
+    ERROR_QUIET
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+
+  string(
+    REGEX REPLACE ".*[ \t]\+" ""
+      RPM_VERSION "${RPM_VERSION}"
+  )
+
+  message(
+    STATUS
+      "Found RPM: ${RPM_EXECUTABLE} (found version \"${RPM_VERSION}\")"
+      )
+
+  configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/macros.${PROJECT_NAME}.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/macros.${PROJECT_NAME}"
+      @ONLY
+  )
+
+  execute_process(
+    COMMAND
+      "${RPM_EXECUTABLE}" -E %{_rpmconfigdir}
+    WORKING_DIRECTORY
+      "${CMAKE_CURRENT_BINARY_DIR}"
+    OUTPUT_VARIABLE
+      RPM_CONFIG_DIR
+    ERROR_QUIET
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+
+  if( NOT RPMMACROS_INSTALL_DIR )
+    set(
+      RPMMACROS_INSTALL_DIR
+        "${RPM_CONFIG_DIR}/macros.d"
+    )
+  endif( NOT RPMMACROS_INSTALL_DIR )
+
+  install(
+    FILES
+      "${CMAKE_CURRENT_BINARY_DIR}/macros.${PROJECT_NAME}"
+    DESTINATION
+      "${RPMMACROS_INSTALL_DIR}"
+  )
+endif( RPM_EXECUTABLE )
+
 # Check which C++11-flag is needed.
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" HAVE_CXX11_FLAG)
