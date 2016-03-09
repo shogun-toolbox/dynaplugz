@@ -40,25 +40,6 @@ configure_file(
     @ONLY
 )
 
-# Check which C++11-flag is needed.
-include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-std=c++11" HAVE_CXX11_FLAG)
-
-if( HAVE_CXX11_FLAG )
-  set( USED_CXX11_FLAG "-std=c++11 " )
-else( HAVE_CXX11_FLAG )
-  CHECK_CXX_COMPILER_FLAG("-std=c++0x" HAVE_CXX0X_FLAG)
-  if( HAVE_CXX0X_FLAG )
-    set( USED_CXX11_FLAG "-std=c++0x " )
-  endif( HAVE_CXX0X_FLAG )
-endif( HAVE_CXX11_FLAG )
-
-configure_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/dynaplugz.pc.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/dynaplugz.pc"
-    @ONLY
-)
-
 file(
   MAKE_DIRECTORY
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}"
@@ -99,13 +80,6 @@ install(
 )
 
 install(
-  FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/dynaplugz.pc"
-  DESTINATION
-    "${LIB_INSTALL_DIR}/pkgconfig"
-)
-
-install(
   DIRECTORY
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}"
   DESTINATION
@@ -123,49 +97,5 @@ install(
   EXPORT
     DynaplugzTargets
   DESTINATION
-    "${CMAKE_INSTALL_DIR}"
-)
-
-file(
-  RELATIVE_PATH
-    REL_INCLUDE_DIR
-      "${CMAKE_INSTALL_DIR}"
-      "${INCLUDE_INSTALL_DIR}"
-)
-
-set(
-  CONF_INCLUDE_DIRS
-    "${PROJECT_SOURCE_DIR}"
-    "${PROJECT_BINARY_DIR}"
-)
-
-configure_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/DynaplugzConfig.cmake.in"
-  "${PROJECT_BINARY_DIR}/DynaplugzConfig.cmake"
-  @ONLY
-)
-
-set(
-  CONF_INCLUDE_DIRS
-    "\${DYNAPLUGZ_CMAKE_DIR}/${REL_INCLUDE_DIR}"
-)
-
-configure_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/DynaplugzConfig.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/DynaplugzConfig.cmake"
-    @ONLY
-)
-
-configure_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/DynaplugzConfigVersion.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/DynaplugzConfigVersion.cmake"
-    @ONLY
-)
-
-install(
-  FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/DynaplugzConfig.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/DynaplugzConfigVersion.cmake"
-  DESTINATION
-    "${CMAKE_INSTALL_DIR}"
+    "${TARGETCONF_INSTALL_DIR}"
 )

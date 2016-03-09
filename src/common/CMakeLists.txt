@@ -34,14 +34,74 @@
 ## Authors: 2016, Björn Esser <me@besser82.io>
 ##
 
-# Add subdirs for process.
-add_subdirectory( dynaplugz )
-add_subdirectory( common )
+# Check which C++11-flag is needed.
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++11" HAVE_CXX11_FLAG)
 
-# Build documentation after all binaries.
-if( TARGET doc )
-  add_dependencies(
-    doc
-      ${PROJECT_NAME}
-  )
-endif( TARGET doc )
+if( HAVE_CXX11_FLAG )
+  set( USED_CXX11_FLAG "-std=c++11 " )
+else( HAVE_CXX11_FLAG )
+  CHECK_CXX_COMPILER_FLAG("-std=c++0x" HAVE_CXX0X_FLAG)
+  if( HAVE_CXX0X_FLAG )
+    set( USED_CXX11_FLAG "-std=c++0x " )
+  endif( HAVE_CXX0X_FLAG )
+endif( HAVE_CXX11_FLAG )
+
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/dynaplugz.pc.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/dynaplugz.pc"
+    @ONLY
+)
+
+install(
+  FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/dynaplugz.pc"
+  DESTINATION
+    "${LIB_INSTALL_DIR}/pkgconfig"
+)
+
+file(
+  RELATIVE_PATH
+    REL_INCLUDE_DIR
+      "${TARGETCONF_INSTALL_DIR}"
+      "${INCLUDE_INSTALL_DIR}"
+)
+
+set(
+  CONF_INCLUDE_DIRS
+    "${PROJECT_SOURCE_DIR}"
+    "${PROJECT_BINARY_DIR}"
+)
+
+# Export target-config for use in build-tree.
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/DynaplugzConfig.cmake.in"
+  "${PROJECT_BINARY_DIR}/DynaplugzConfig.cmake"
+  @ONLY
+)
+
+set(
+  CONF_INCLUDE_DIRS
+    "\${DYNAPLUGZ_CMAKE_DIR}/${REL_INCLUDE_DIR}"
+)
+
+# Export target-config for system-wide use.
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/DynaplugzConfig.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/DynaplugzConfig.cmake"
+    @ONLY
+)
+
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/DynaplugzConfigVersion.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/DynaplugzConfigVersion.cmake"
+    @ONLY
+)
+
+install(
+  FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/DynaplugzConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/DynaplugzConfigVersion.cmake"
+  DESTINATION
+    "${TARGETCONF_INSTALL_DIR}"
+)
