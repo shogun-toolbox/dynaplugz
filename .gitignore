@@ -2,10 +2,19 @@
 CMakeCache.txt
 CMakeFiles
 CMakeScripts
+CTestTestfile.cmake
+DartConfiguration.tcl
+Doxyfile
 Makefile
+*Config*.cmake
+*Targets.cmake
+*.pc
 build*/
 cmake_install.cmake
+config.hpp
 install_manifest.txt
+macros.*
+!macros.*.in
 
 # Compiled Object files
 *.slo
