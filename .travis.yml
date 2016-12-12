@@ -56,7 +56,7 @@ script:
   - make
   - make install DESTDIR="$(pwd)/test_install"
   - make memcheck
-  - popd
 
 after_success:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CC" == "gcc" ]] ; then coveralls -E '/usr/include/.*' -E '.*CMake.*' -E '.*tests.*' --gcov-options '\-lp'; fi
+  - popd
+  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CC" == "gcc" ]] ; then coveralls -E '/usr/.*' -E '.*CMake.*' -E '.*tests.*' --gcov-options '\-lp' > /dev/null; fi
