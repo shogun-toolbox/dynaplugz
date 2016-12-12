@@ -48,12 +48,14 @@ file(
 set(
   DYNAPLUGZ_SOURCES
     dynaplugz.cpp
+    pluginloader.cpp
 )
 
 set(
   DYNAPLUGZ_HEADERS
     "${CMAKE_CURRENT_BINARY_DIR}/config.hpp"
     dynaplugz.hpp
+    pluginloader.hpp
 )
 
 add_library(
@@ -66,6 +68,7 @@ set_target_properties(
   PROPERTIES
     PUBLIC_HEADER  "${DYNAPLUGZ_HEADERS}"
     SOVERSION      "${PROJECT_SOVER}"
+    LINK_LIBRARIES "${CMAKE_DL_LIBS}"
 )
 
 install(
