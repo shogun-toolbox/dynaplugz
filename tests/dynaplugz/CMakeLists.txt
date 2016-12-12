@@ -34,6 +34,10 @@
 ## Authors: 2016, Björn Esser <me@besser82.io>
 ##
 
+include( ProcessorCount )
+ProcessorCount( TESTJOBS )
+MATH( EXPR TESTJOBS "${TESTJOBS} + 1" )
+
 add_executable(
   get_instance
     "get_instance.cpp"
@@ -65,9 +69,9 @@ add_test(
 add_custom_target(
   check
     COMMAND
-      ${CMAKE_CTEST_COMMAND} -V
+      ${CMAKE_CTEST_COMMAND} -j${TESTJOBS} -V
     WORKING_DIRECTORY
-      ${CMAKE_CURRENT_BINARY_DIR}
+      ${CMAKE_BINARY_DIR}
     DEPENDS
       test_binaries
 )
@@ -75,9 +79,9 @@ add_custom_target(
 add_custom_target(
   memcheck
     COMMAND
-      ${CMAKE_CTEST_COMMAND} -V -DExperimentalMemCheck
+      ${CMAKE_CTEST_COMMAND} -D ExperimentalMemCheck -j${TESTJOBS} -V
     WORKING_DIRECTORY
-      ${CMAKE_CURRENT_BINARY_DIR}
+      ${CMAKE_BINARY_DIR}
     DEPENDS
       test_binaries
 )
