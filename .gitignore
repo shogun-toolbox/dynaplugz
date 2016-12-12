@@ -6,6 +6,7 @@ CTestTestfile.cmake
 DartConfiguration.tcl
 Doxyfile
 Makefile
+!/Makefile
 *Config*.cmake
 *Targets.cmake
 *.pc
