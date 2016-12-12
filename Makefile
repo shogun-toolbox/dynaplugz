@@ -34,6 +34,8 @@
 ## Authors: 2016, Björn Esser <me@besser82.io>
 ##
 
+CMAKE_OPTIONS  = "-DCMAKE_VERBOSE_MAKEFILE=OFF"
+
 all: configure build memcheck
 
 build: configure
@@ -48,7 +50,7 @@ clean:
 configure: clean
 	mkdir -p build;
 	cd build && \
-	cmake ..;
+	cmake $(CMAKE_OPTIONS) ..;
 
 memcheck: build
 	$(MAKE) -C build memcheck;

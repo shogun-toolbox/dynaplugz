@@ -12,6 +12,7 @@ addons:
       - cmake
       - cmake-data
       - doxygen
+      - dpkg-dev
       - graphviz
       - perl
       - valgrind
@@ -34,6 +35,8 @@ matrix:
       compiler: clang
 
 before_script:
+  - CMAKE_OPTIONS="-DCMAKE_VERBOSE_MAKEFILE=OFF"
+  - export CMAKE_OPTIONS
   - if [[ "$TRAVIS_OS_NAME" == "osx" && "$CC" == "gcc" ]]; then export CC="gcc-4.8"; export CXX="g++-4.8"                               ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]                  ; then brew update                                                             ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]                  ; then brew install cmake    || brew outdated cmake    || brew upgrade cmake   ; fi
@@ -41,6 +44,7 @@ before_script:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]                  ; then brew install graphviz || brew outdated graphviz || brew upgrade graphviz; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]                  ; then brew install perl     || brew outdated perl     || brew upgrade perl    ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]                  ; then brew install valgrind || brew outdated valgrind || brew upgrade valgrind; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]                ; then dpkg-buildflags --export=sh > cflags_env.sh && . cflags_env.sh && rm -f cflags_env.sh; fi
   - mkdir -p build/test_install
   - pushd build
   - cmake ${CMAKE_OPTIONS} ..
