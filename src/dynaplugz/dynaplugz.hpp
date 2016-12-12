@@ -34,7 +34,9 @@
  * Authors: 2016, Björn Esser <me@besser82.io>
  */
 
+#pragma once
 #ifndef   DYNAPLUGZ_DYNAPLUGZ_HPP
+#define   DYNAPLUGZ_DYNAPLUGZ_HPP
 
 #include <memory>
 #include <dynaplugz/config.hpp>
@@ -57,5 +59,4 @@ namespace Dynaplugz
       const CDynaplugz& operator = ( const CDynaplugz& ) = delete;
   };
 }
-#define   DYNAPLUGZ_DYNAPLUGZ_HPP
 #endif /* DYNAPLUGZ_DYNAPLUGZ_HPP */

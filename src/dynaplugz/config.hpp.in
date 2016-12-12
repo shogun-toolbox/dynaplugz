@@ -34,7 +34,9 @@
  * Authors: 2016, Björn Esser <me@besser82.io>
  */
 
+#pragma once
 #ifndef   DYNAPLUGZ_CONFIG_HPP
+#define   DYNAPLUGZ_CONFIG_HPP
 
 #define DP_VERSION       "@PROJECT_VERSION@"
 #define DP_VERSION_GIT   "@PROJECT_VERSION_GIT@"
@@ -51,5 +53,4 @@
 #define DP_PLUGIN_PATH   "@LIB_INSTALL_DIR@/@PROJECT_NAME@"
 #define DP_PLUGIN_SUFFIX "@CMAKE_SHARED_LIBRARY_SUFFIX@"
 
-#define   DYNAPLUGZ_CONFIG_HPP
 #endif /* DYNAPLUGZ_CONFIG_HPP */
