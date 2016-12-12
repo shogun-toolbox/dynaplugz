@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/shogun-toolbox/dynaplugz.svg?branch=develop)](https://travis-ci.org/shogun-toolbox/dynaplugz)
+[![Coverage Status](https://coveralls.io/repos/github/shogun-toolbox/dynaplugz/badge.svg?branch=develop)](https://coveralls.io/github/shogun-toolbox/dynaplugz?branch=develop)
 #dynaplugz
 Dynamic plugin-loading like a boss
 
